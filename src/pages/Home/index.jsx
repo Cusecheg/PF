@@ -29,7 +29,7 @@ export default function Hola() {
               isChecked: item.status  === "AVAILABLE"
           
             }));
-            console.log(data);
+            // console.log(data);
             setCatalogId(data.catalogId);
             setItems(newItems);
             setResults(newItems);

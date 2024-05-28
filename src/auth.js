@@ -18,23 +18,24 @@ export async function signIn(credentials) {
       },
     });
 
-    console.log(user)
+    // console.log(user)
     if (user && user.password !== password) {
       return {
         success: false,
         error: "Invalid credentials.",
       };
     }
-    console.log(user.secretKey);
+    // console.log(user.secretKey);
     const token = jwt.sign({ email }, user.secretKey, {
       expiresIn: "6h",
     });
     let tokenIfood_1 = user.tokenIfood_1;
     if (user.tokenIfood_1) {
       const expiresIn = user.expiresIn;
-      const createAt = dateInSeconds(user.tokenIfood_1CreateAt);
+      const createAt = dateInSeconds(user.tokenIfood_1CreatedAt);
       const now = Math.floor(Date.now() / 1000);
-
+      // console.log(now);
+      // console.log((createAt+ expiresIn));
       if ((createAt + expiresIn) < now) {
         // Token has expired, fetch a new one
         try {
@@ -45,29 +46,29 @@ export async function signIn(credentials) {
             where: { email },
             data: {
               tokenIfood_1: newToken.accessToken,
-              tokenType: newToken.tokenType,
+              tokenType: newToken.type,
               expiresIn: newToken.expiresIn,
-     
-           
+              tokenIfood_1CreatedAt: new Date(),
             },
           });
         } catch (error) {
           return { success: false, error: "Error fetching new iFood access token." };
         }
-      }
+      };
     } else {
       // No token exists, fetch a new one
       try {
         const newToken = await getAccessToken(user.clientId, user.clientSecret);
         tokenIfood_1 = newToken.accessToken;
+        // console.log(newToken);
 
         await prisma.user.update({
           where: { email },
           data: {
             tokenIfood_1: newToken.accessToken,
-            tokenType: newToken.tokenType,
+            tokenType: newToken.type,
             expiresIn: newToken.expiresIn,
-   
+            tokenIfood_1CreatedAt: new Date(),
             
           },
         });
@@ -76,7 +77,7 @@ export async function signIn(credentials) {
       }
     }
 
-    console.log(user);
+    // console.log(user);
     return {
       success: true,
       token,

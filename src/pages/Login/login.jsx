@@ -25,7 +25,7 @@ export default function LoginPage() {
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('email', data.email)
         router.push('/Home');
-        console.log(data.message)
+        // console.log(data.message)
       } else {
         // Si la respuesta no es satisfactoria, lanzar un error y manejarlo
         const data = await response.json();

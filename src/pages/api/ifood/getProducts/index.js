@@ -14,7 +14,7 @@ export default async function getProducts(req, res) {
                   Accept: 'application/json',
               },
           });
-          console.log(response.data);
+        //   console.log(response.data);
           res.status(200).json(response.data); // Devuelve la respuesta con los datos recibidos
       } catch (error) {
           console.error('Error fetching products:', error.response ? error.response.data : error.message);

@@ -9,7 +9,7 @@ export default async function getAccessToken(clientId, clientSecret) {
         authorizationCodeVerifier: "",
         refreshToken: ""
     });
-    console.log(clientId, clientSecret);
+    // console.log(clientId, clientSecret);
     try {
         const response = await axios.post(process.env.API_AUTHENTICATION_URL, data, {
             headers: {
